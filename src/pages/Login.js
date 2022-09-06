@@ -1,14 +1,18 @@
 import React from 'react'
-import { createLoginPopup } from '../firebase';
+import { useContext } from 'react';
+import { createLoginPopup } from '../services/authentication';
+import { UserContext } from '../contexts/UserContext';
 
-export default function Login({ setIsAuth }) {
+export default function Login() {
+  const { setUser } = useContext(UserContext);
+
   const onClickHandler = () => {
     createLoginPopup()
-    .then((user) => { 
-        console.log(user);
-        setIsAuth(true);
+    .then(({user}) => { 
+        console.log("Setting UserContext Value");
+        setUser(user);
     })
-    .catch((error)=> console.log(error))
+    .catch((error)=> console.log(error));
   };
   return (
     <>

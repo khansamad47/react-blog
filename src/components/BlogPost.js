@@ -1,12 +1,13 @@
 import React from 'react'
+import { deleteBlog } from '../services/database'
 
-export default function BlogPost({ title, body, author }) {
+export default function BlogPost({ item, onDelete }) {
   return (
     <>
-    <h2>{title}</h2>
-    <p>{body}</p>
-    <p>{author}</p>
-    <button>Delete</button>
+    <h2>{item.title}</h2>
+    <p>{item.body}</p>
+    <p>{item.author_name}</p>
+    <button onClick={ () => onDelete(item) }>Delete</button>
     </>
   )
 }

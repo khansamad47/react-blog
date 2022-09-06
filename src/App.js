@@ -1,29 +1,26 @@
 import logo from './logo.svg';
 import './App.css';
 import { Link, Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
 
 import CreatePost from './pages/CreatePost';
 import Login from './pages/Login';
 import Home from './pages/Home';
+import Navigator from './components/Navigator';
+import { logoutUser } from './services/authentication';
+import { UserContextProvider, UserContext } from './contexts/UserContext';
 
 function App() {
 
-  const [ isAuth, setIsAuth ] = useState(false);
-
   return (
     <div className="App">
-      <nav>
-        <Link to="/">Home</Link>
-        <Link to="/login">Login</Link>
-        <Link to="/createpost">Create Post</Link>
-        { isAuth ? <p>Logout</p> : <></> }
-      </nav>
+      <UserContextProvider>
+      <Navigator/>
       <Routes>
         <Route exact path="/" element={<Home />} />
-        <Route exact path="/login" element={<Login setIsAuth={ setIsAuth } />} />
+        <Route exact path="/login" element={<Login />} />
         <Route exact path="/createpost" element={<CreatePost />} />
       </Routes>
+      </UserContextProvider>
     </div>
   );
 }

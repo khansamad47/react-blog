@@ -1,26 +1,31 @@
 import {React, useState, useEffect } from 'react'
 import BlogPost from '../components/BlogPost';
-import { getAllBlogs } from '../firebase';
+import { deleteBlog, getAllBlogs } from '../services/database';
+
 
 export default function Home() {
   const [ blogs, setBlogs ]  = useState([]);
+
+  const fetchDataFromBackend = () => {
+      getAllBlogs().then((items) => { setBlogs(items); })
+      .catch((error) => console.log(error))
+  };
+
   useEffect(() => {
-    getAllBlogs().then((items) => {
-        console.log("useEffectCalled.")
-        setBlogs(items);
-    })
-    .catch((error) => console.log(error))
+    fetchDataFromBackend();
   }, []);
 
+  const onDelete = (item) => { 
+    deleteBlog(item)
+    .then( () => fetchDataFromBackend())
+    .catch(()=>console.log("Unable to delete")); 
+
+  };
   return (
     <>
     <div>Home</div>
     {
-        blogs.map(({ title, author, body, id }) => {
-            return (
-                <BlogPost key={id} title={title} body={body} author={author} />
-            );
-        })
+        blogs.map((item) => { return (<BlogPost key={item.id} item={item} onDelete={ onDelete } />); })
     }
     </>
   )
