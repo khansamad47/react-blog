@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import Navigator from './components/Navigator';
 import { logoutUser } from './services/authentication';
 import { UserContextProvider, UserContext } from './contexts/UserContext';
+import PrivateRoutes from './utils/PrivateRoutes';
 
 function App() {
 
@@ -18,7 +19,9 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/login" element={<Login />} />
-        <Route exact path="/createpost" element={<CreatePost />} />
+        <Route element={<PrivateRoutes />}>
+          <Route exact path="/createpost" element={<CreatePost />} />
+        </Route>
       </Routes>
       </UserContextProvider>
     </div>

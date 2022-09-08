@@ -16,8 +16,8 @@ export default function Navigator() {
     <>
       <nav>
         <Link to="/">Home</Link>
-        <Link to="/login">Login</Link>
-        <Link to="/createpost">Create Post</Link>
+        {!user && <Link to="/login">Login</Link>}
+        {user && <Link to="/createpost">Create Post</Link>}
         {user && <p>Logged in as { user.displayName }.</p>}
         {user && <button onClick={ logoutHandler } >Logout</button>}
       </nav>
